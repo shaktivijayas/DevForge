@@ -1,205 +1,257 @@
-# DevForge
+<div align="center">
 
-[![npm version](https://img.shields.io/npm/v/devforge?color=cyan&style=flat-square)](https://www.npmjs.com/package/devforge)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen?style=flat-square)](https://nodejs.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square)](https://www.typescriptlang.org)
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=DevForge&fontSize=60&fontColor=fff&animation=twinkling&fontAlignY=38&desc=Developer%27s%20CLI%20Swiss%20Army%20Knife%20%7C%20Scaffold%20%7C%20GitHub%20%7C%20Security%20%7C%20Pomodoro&descSize=15&descColor=fff&descAlignY=60" />
 
-> 🔧 **The Developer's CLI Toolkit** — scaffold projects, monitor GitHub stats, scan for secrets, and stay focused — all from your terminal.
+<br/>
 
-[GIF]
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://npmjs.com)
+[![Commander](https://img.shields.io/badge/Commander-CLI%20Framework-gray?style=for-the-badge)](https://github.com/tj/commander.js)
+[![blessed](https://img.shields.io/badge/blessed-Terminal%20UI-1C3C3C?style=for-the-badge)](https://github.com/chjj/blessed)
+
+![License](https://img.shields.io/badge/License-MIT-00d4ff?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
+![PRs](https://img.shields.io/badge/PRs-Welcome-7c3aed?style=flat-square)
+![Node](https://img.shields.io/badge/Node-%3E%3D18-brightgreen?style=flat-square)
+
+</div>
+
+---
+
+## 🔧 What is DevForge?
+
+**DevForge** is a production-ready developer CLI toolkit — one command, four powerful subcommands. Scaffold full-stack projects in seconds, monitor your GitHub profile in a real-time terminal dashboard, scan your codebase for secrets before you push, and run focused Pomodoro work sessions — all without leaving your terminal.
+
+> One CLI to scaffold, monitor, secure, and focus. Built for developers who live in the terminal.
 
 ---
 
 ## ✨ Features
 
-| Command | Description |
-|---------|-------------|
-| `devforge scaffold` | Interactive project scaffolder for 6 popular stacks |
-| `devforge pulse` | Real-time GitHub profile & repo stats dashboard |
-| `devforge guard` | Security scanner — find secrets before you push |
-| `devforge task` | Terminal todo manager + Pomodoro timer |
+- ⚡ **Project Scaffolder** — 6 production-ready templates (Next.js, FastAPI, MERN, Express, Flask, Vite) with Docker, git, and dependency setup
+- 📊 **GitHub Dashboard** — Real-time blessed TUI showing profile stats, repo table, and stars bar chart — press R to refresh
+- 🔒 **Security Scanner** — Regex-based secret detection (AWS, OpenAI, GitHub tokens, private keys, DB URLs, JWTs) + gitignore auditor
+- 🍅 **Pomodoro Timer** — Figlet ASCII countdown with progress bar, encouraging messages, bell on completion, and 5-minute break mode
+- 💾 **Persistent Storage** — Tasks and GitHub username saved locally via `conf` — survives restarts
+- 🎨 **Beautiful Output** — Gradient banners, boxen boxes, color-coded tables, ora spinners throughout every command
 
 ---
 
-## 📦 Installation
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|:---|:---|
+| **Language** | TypeScript (strict mode) |
+| **CLI Framework** | Commander.js |
+| **Terminal UI** | blessed, blessed-contrib |
+| **Prompts** | Inquirer.js |
+| **Styling** | chalk, gradient-string, figlet, boxen |
+| **HTTP** | axios (GitHub REST API v3) |
+| **Storage** | conf (JSON persistence) |
+| **File System** | fs-extra, glob |
+| **Spinners** | ora, nanospinner |
+| **Tables** | cli-table3 |
+
+---
+
+## 🏗️ Architecture
+
+```
+devforge
+  ├── scaffold ──► inquirer prompts
+  │                    │
+  │               template engine ──► fs-extra write ──► git init ──► npm install
+  │
+  ├── pulse ──► GitHub API (axios)
+  │                    │
+  │               blessed grid ──► profile panel ──► repo table ──► stars chart
+  │                    │
+  │               R: refresh  ·  Q: quit
+  │
+  ├── guard ──► glob scan (all files)
+  │                    │
+  │               regex patterns ──► cli-table3 report ──► gitignore audit
+  │                    │
+  │               offer auto-generate .gitignore
+  │
+  └── task
+        ├── add      ──► conf JSON storage
+        ├── list     ──► color-coded cli-table3
+        ├── done     ──► update status + timestamp
+        ├── pomodoro ──► figlet countdown ──► terminal bell ──► 5-min break
+        └── stats    ──► aggregated productivity report
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm 8+
+
+### Install globally
 
 ```bash
 npm install -g devforge
 ```
 
-Or run without installing:
+### Or run without installing
 
 ```bash
 npx devforge --help
 ```
 
----
-
-## 🚀 Commands
-
-### `devforge scaffold`
-
-Interactive project scaffolder — answer a few questions and get a complete, ready-to-run project structure.
-
-**Supported templates:**
-- ⚡ **Next.js 14** + Tailwind CSS + TypeScript
-- 🐍 **FastAPI** + PostgreSQL + Docker
-- 🍃 **MERN Stack** (MongoDB + Express + React + Node)
-- 🚀 **Express** + TypeScript + PostgreSQL
-- 🌶️ **Python Flask** + SQLAlchemy
-- ⚛️ **React + Vite** + TypeScript + Tailwind
-
-```bash
-devforge scaffold
-```
-
-**What it does:**
-1. Shows an ASCII art header in gradient cyan→purple
-2. Prompts for project name, template, Docker, git, and dependency install
-3. Creates the full folder structure with all config files
-4. Optionally runs `git init` + initial commit
-5. Optionally runs `npm install` or reminds you to `pip install`
-
-[SCREENSHOT — scaffold]
-
----
-
-### `devforge pulse`
-
-A beautiful real-time GitHub stats dashboard rendered directly in your terminal using **blessed** and **blessed-contrib**.
-
-```bash
-devforge pulse
-```
-
-**Dashboard panels:**
-- 👤 Profile — name, bio, location
-- 📊 Stats — followers, following, repos, total stars, open-to-work badge
-- 📁 Recent repos table — name, stars, forks, language, last updated
-- ⭐ Stars bar chart — visual comparison across repos
-- 🏆 Top repos by stars list
-
-**Keyboard shortcuts:**
-- `R` — refresh all data from GitHub API
-- `Q` / `Esc` — quit
-
-Your GitHub username is saved locally and reused on next run.
-
-[SCREENSHOT — pulse]
-
----
-
-### `devforge guard`
-
-Security scanner that checks your project for hardcoded secrets, missing gitignore entries, and other bad practices before you push.
-
-```bash
-devforge guard
-```
-
-**What it scans for:**
-
-| Pattern | Severity |
-|---------|----------|
-| AWS Access Keys (`AKIA...`) | 🔴 Critical |
-| OpenAI API Keys (`sk-...`) | 🔴 Critical |
-| GitHub Tokens (`ghp_`, `ghs_`) | 🔴 Critical |
-| Private PEM keys | 🔴 Critical |
-| PostgreSQL URLs with passwords | 🔴 Critical |
-| JWT secrets | 🔴 Critical |
-| Stripe secret keys | 🔴 Critical |
-| Generic password assignments | 🟡 Warning |
-| Generic API key assignments | 🟡 Warning |
-
-**Repository checks:**
-- ✅ `.gitignore` exists and covers `.env`, `node_modules`, etc.
-- ✅ `.env` files not accidentally tracked by git
-- ✅ No files over 50MB
-- ✅ Lock file present
-
-Offers to auto-generate a best-practice `.gitignore` at the end.
-
-[SCREENSHOT — guard]
-
----
-
-### `devforge task`
-
-A persistent terminal-based todo manager with a built-in **Pomodoro timer** — focus sessions with ASCII countdown, progress bars, and encouraging messages.
-
-```bash
-# Add a task
-devforge task add "Implement auth middleware" --project myapp --priority high
-
-# List all tasks
-devforge task list
-
-# Mark complete
-devforge task done <id>
-
-# Start 25-minute Pomodoro
-devforge task pomodoro <id>
-
-# Productivity statistics
-devforge task stats
-```
-
-**Task list output:**
-
-```
-┌──────────┬────────────────────────────────┬────────────┬──────────┬─────────┬─────┬────────────┐
-│ ID       │ Task                           │ Project    │ Priority │ Status  │ 🍅  │ Created    │
-├──────────┼────────────────────────────────┼────────────┼──────────┼─────────┼─────┼────────────┤
-│ 3c62f19b │ Implement auth middleware      │ myapp      │ high     │ pending │ 2   │ 5m ago     │
-└──────────┴────────────────────────────────┴────────────┴──────────┴─────────┴─────┴────────────┘
-```
-
-**Pomodoro timer features:**
-- Big ASCII countdown using figlet
-- Progress bar filling up in real time
-- Encouraging messages at 20, 15, 10, and 5 minutes remaining
-- Terminal bell on completion
-- Optional 5-minute break countdown
-- Pomodoro count tracked per task
-
-[SCREENSHOT — pomodoro]
-
----
-
-## 🛠️ Development
+### Clone and run locally
 
 ```bash
 git clone https://github.com/shaktivijayas/DevForge.git
 cd DevForge
 npm install
-npm run dev -- scaffold     # run scaffold command in dev mode
-npm run dev -- task list    # run task list
-npm run build               # compile TypeScript → dist/
+npm run dev -- --help
 ```
 
-**Project structure:**
+---
+
+## 📋 Commands
+
+### `devforge scaffold`
+
+Interactive project scaffolder. Prompts for name, template, Docker, git init, and dependency install — then writes the complete project structure.
+
+```bash
+devforge scaffold
+```
+
+**Supported templates:**
+
+| Template | Stack |
+|:---|:---|
+| ⚡ Next.js 14 | App Router + Tailwind CSS + TypeScript |
+| 🐍 FastAPI | PostgreSQL + Docker + Alembic |
+| 🍃 MERN Stack | MongoDB + Express + React + Node |
+| 🚀 Express | TypeScript + PostgreSQL + JWT + Helmet |
+| 🌶️ Flask | SQLAlchemy + Flask-Migrate + JWT |
+| ⚛️ React + Vite | TypeScript + Tailwind CSS |
+
+---
+
+### `devforge pulse`
+
+Real-time GitHub stats dashboard rendered in the terminal using **blessed** and **blessed-contrib**.
+
+```bash
+devforge pulse
+```
+
+**Dashboard layout:**
 
 ```
-src/
-  index.ts              Main entry point (commander setup)
-  commands/
-    scaffold.ts         devforge scaffold
-    pulse.ts            devforge pulse
-    guard.ts            devforge guard
-    task.ts             devforge task
-  utils/
-    display.ts          Shared UI: banners, boxes, spinners
-    github.ts           GitHub API client
-    storage.ts          conf-backed persistence
-    patterns.ts         Secret regex patterns
-  templates/
-    nextjs.ts           Next.js file structure
-    fastapi.ts          FastAPI file structure
-    mern.ts             MERN stack file structure
-    express.ts          Express file structure
-    flask.ts            Flask file structure
-    vite.ts             Vite + React file structure
+┌─────────────────────────────────────────────────────────────────┐
+│  ⚡ GitPulse — @username                              12:34:56   │
+├──────────────────┬──────────────────────────────────────────────┤
+│  👤 Profile      │  📁 Recent Repositories                      │
+│  📊 Stats        │  ⭐ Stars Bar Chart                          │
+│  🏆 Top Repos    │                                              │
+├──────────────────┴──────────────────────────────────────────────┤
+│  Press Q to quit | R to refresh | Last updated: 12:34:56        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+- `R` — refresh all GitHub data live
+- `Q` / `Esc` — quit with goodbye message
+
+GitHub username is saved locally and reused on the next run.
+
+---
+
+### `devforge guard`
+
+Scans the current project directory for hardcoded secrets, missing gitignore entries, and risky files before you push.
+
+```bash
+devforge guard
+```
+
+**Secret patterns detected:**
+
+| Pattern | Severity |
+|:---|:---|
+| AWS Access Keys (`AKIA...`) | 🔴 Critical |
+| OpenAI API Keys (`sk-...`) | 🔴 Critical |
+| GitHub Tokens (`ghp_`, `ghs_`) | 🔴 Critical |
+| Private PEM keys | 🔴 Critical |
+| PostgreSQL URLs with passwords | 🔴 Critical |
+| Stripe secret keys (`sk_live_...`) | 🔴 Critical |
+| JWT secret assignments | 🔴 Critical |
+| Generic password assignments | 🟡 Warning |
+| Generic API key assignments | 🟡 Warning |
+
+**Repository checks:** `.gitignore` completeness · `.env` git-tracking · files >50MB · lock file presence
+
+Offers to auto-generate a best-practice `.gitignore` at the end.
+
+---
+
+### `devforge task`
+
+Persistent terminal todo manager with a built-in Pomodoro timer. All tasks saved to local conf storage.
+
+```bash
+# Add a task
+devforge task add "Implement auth middleware" --project myapp --priority high
+
+# List all tasks (color-coded by priority)
+devforge task list
+
+# Mark complete
+devforge task done <id>
+
+# Start 25-minute Pomodoro with live ASCII countdown
+devforge task pomodoro <id>
+
+# Productivity stats
+devforge task stats
+```
+
+**Pomodoro timer features:**
+- Figlet ASCII clock counting down in real time
+- Progress bar filling from 0% → 100%
+- Encouraging messages at 20, 15, 10, and 5 minutes remaining
+- Terminal bell on completion
+- Optional 5-minute break countdown
+- Pomodoro count tracked and displayed per task
+
+---
+
+## 📁 Project Structure
+
+```
+DevForge/
+├── src/
+│   ├── index.ts                 # Main entry — commander setup
+│   ├── commands/
+│   │   ├── scaffold.ts          # devforge scaffold
+│   │   ├── pulse.ts             # devforge pulse
+│   │   ├── guard.ts             # devforge guard
+│   │   └── task.ts              # devforge task
+│   ├── utils/
+│   │   ├── display.ts           # Banners, boxes, spinners, icons
+│   │   ├── github.ts            # GitHub REST API client (axios)
+│   │   ├── storage.ts           # conf-backed task + username persistence
+│   │   └── patterns.ts          # Secret regex patterns
+│   └── templates/
+│       ├── nextjs.ts            # Next.js 14 file structure
+│       ├── fastapi.ts           # FastAPI file structure
+│       ├── mern.ts              # MERN stack file structure
+│       ├── express.ts           # Express + TypeScript file structure
+│       ├── flask.ts             # Flask + SQLAlchemy file structure
+│       └── vite.ts              # React + Vite file structure
+├── dist/                        # Compiled output (auto-generated)
+├── package.json
+└── tsconfig.json
 ```
 
 ---
@@ -214,20 +266,19 @@ Contributions are welcome!
 4. Push: `git push origin feat/my-feature`
 5. Open a Pull Request
 
-Please follow the existing code style — strict TypeScript, no `any`, colorful output via chalk/gradient-string.
-
 **Ideas for contributions:**
-- New scaffold templates (Django, NestJS, Go Fiber, SvelteKit...)
-- GitHub Actions integration for `guard`
-- Task export to CSV / Markdown
-- `pulse` support for organizations
+- New scaffold templates (Django, NestJS, Go Fiber, SvelteKit, T3 Stack...)
+- GitHub Actions workflow generator in `guard`
+- Task export to CSV or Markdown
+- `pulse` support for GitHub organizations
+- Notification sound customization for Pomodoro
 
 ---
 
-## 📄 License
+## 👨‍💻 Author
 
-MIT © [shaktivijayas](https://github.com/shaktivijayas)
+**Shakti Vijay A S** — [GitHub](https://github.com/shaktivijayas) · [LinkedIn](https://www.linkedin.com/in/shaktidev/)
 
----
-
-<p align="center">Built with ❤️ and too much coffee using <a href="https://claude.ai/code">Claude Code</a></p>
+<div align="center">
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer&animation=twinkling" />
+</div>
