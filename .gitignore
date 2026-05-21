@@ -1,5 +1,5 @@
 node_modules/
-dist/
+# dist/ is tracked for npm publish — use .npmignore to exclude src from package
 .env
 .env.local
 .env.production

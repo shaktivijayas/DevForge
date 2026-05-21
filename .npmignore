@@ -1,0 +1,8 @@
+src/
+*.tsbuildinfo
+.env*
+coverage/
+.nyc_output/
+.idea/
+.vscode/
+nodemon.json
